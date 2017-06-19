@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 
 public class MathController {
 
-    @GetMapping("/add/{number1}/and/{number2}")
     @ResponseBody
       public double add(@PathVariable int number1, @PathVariable int number2){
         return (double) number1 + number2 ;}

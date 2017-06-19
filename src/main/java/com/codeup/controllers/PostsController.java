@@ -11,13 +11,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class PostsController {
 
 
-
     @GetMapping("/posts")
     @ResponseBody
     public String viewAll(String name) {
         return "posts index page";
     }
-
 
     @GetMapping("/posts/{id}")
     @ResponseBody
