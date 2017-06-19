@@ -11,7 +11,22 @@
 
 <body>
 
-<h1> Roll dice landing page</h1>
+<h1> Roll dice landing page </h1>
+
+<h1>
+    <span th:if="${Rnum} eq ${Gnum} ">
+        Your numbers match
+    </span>
+</h1>
+
+
+<h1>
+    <span th:if="${Rnum} != ${Gnum} ">
+        Your numbers dont match
+    </span>
+</h1>
+
+<h1 th:text="${Rnum}" />
 
 </body>
 </html>
