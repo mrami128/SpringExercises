@@ -13,6 +13,10 @@
 
 <body>
 
-<h1> all the posts landing page</h1>
+<div th:each="post : ${posts}">
+    <h1 th:text="${post.title}" ></h1>
+</div>
+
 
 </body>
+</html>

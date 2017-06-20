@@ -11,22 +11,27 @@
 
 <body>
 
-<h1> Roll dice landing page </h1>
+        <h1> Roll dice landing page </h1>
 
-<h1>
-    <span th:if="${Rnum} eq ${Gnum} ">
-        Your numbers match
-    </span>
-</h1>
+        <h1>
+            <span th:if="${Rnum} eq ${Gnum} ">
+                Your numbers match       </span>
+        </h1>
 
+        <h1>
+            <span th:if="${Rnum} != ${Gnum} ">
+                Your numbers dont match    </span>
+        </h1>
 
-<h1>
-    <span th:if="${Rnum} != ${Gnum} ">
-        Your numbers dont match
-    </span>
-</h1>
+        <h1 th:text="${Rnum}" />
 
-<h1 th:text="${Rnum}" />
+        <h1>Guess Again</h1>
+            <a href="/rolldice/1"> 1 </a>
+            <a href="/rolldice/2"> 2 </a>
+            <a href="/rolldice/3"> 3 </a>
+            <a href="/rolldice/4"> 4 </a>
+            <a href="/rolldice/5"> 5 </a>
+            <a href="/rolldice/6"> 6 </a>
 
 </body>
 </html>
