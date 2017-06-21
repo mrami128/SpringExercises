@@ -1,7 +1,8 @@
 package com.codeup.controllers;
 
-/**
- * Created by user on 6/20/17.
- */
+
+import org.springframework.stereotype.Controller;
+
+@Controller
 public class DiceController {
 }

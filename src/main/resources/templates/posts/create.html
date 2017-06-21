@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="UTF-8"/>
-    <title>Index of All Posts</title>
+    <title>Create Post</title>
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
@@ -13,10 +13,20 @@
 
 <body>
 
-<div th:each="post : ${posts}">
-    <h1 th:text="${post.getTitle()}" ></h1>
-</div>
+<nav th:replace="fragments :: my-navbar"></nav>"
 
+
+<form action="/posts/create" method="post" th:object="${post}">
+
+    Title  <input type="text" th:field="*{title}" />
+
+    Body   <input type="text" th:field="*{body}" />
+
+    <br />
+    <input type="submit" value="Submit" />
+</form>
+
+<p>If you click the "Submit" button, the form-data will be sent to a page called "/action_page.php".</p>
 
 </body>
 </html>

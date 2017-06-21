@@ -11,7 +11,7 @@ public class PostSvc {
     List<Post> posts = new ArrayList<>();
                            // this is constructor -notice it has same name as class PostSVC
     public PostSvc() {
-        createPosts();
+//        createPosts();
     }
 
     public List<Post> findAll() {
@@ -28,20 +28,6 @@ public class PostSvc {
         return post;
     }
 
-    private void createPosts() {
-        // create some fake  ad objects and add them to the ads list
-        Post post = new Post("title", "another fake test post");
-        Post post2 = new Post("title2", "another fake test post");
-        Post post3 = new Post("title3", "another fake test post");
-        Post post4 = new Post("title4", "another fake test post");
-
-        // with the save method
-        this.save(post);
-        this.save(post2);
-        this.save(post3);
-        this.save(post4);
-
-    }
 
 
 }
