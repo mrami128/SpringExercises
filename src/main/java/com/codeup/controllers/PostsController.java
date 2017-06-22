@@ -1,7 +1,6 @@
 package com.codeup.controllers;
 
 import com.codeup.models.Post;
-//import com.codeup.svcs.AdSvc;
 import com.codeup.svcs.PostSvc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -42,11 +41,30 @@ public class PostsController {
     }
 
     @PostMapping("/posts/create")
-    public String savePost(@ModelAttribute Post post){
+      public String savePost(
+        @ModelAttribute Post post){
         postDao.save(post);
         return "redirect:/posts";
     }
 
+
+    @GetMapping("/posts/{id}/edit")
+    public String showEditForm(@PathVariable long id, Model model) {
+         // TODO: Find this post in the data source using the service
+                  Post post = postDao.findOne(id);
+         // TODO: Pass the post found to the view
+                  model.addAttribute("post", post );
+                return "posts/edit";
+           }
+
+    @PostMapping("/posts/{id}/edit")
+    public String editPost(
+            @RequestParam (name="title") String title,
+            @RequestParam (name="body") String body,
+            @PathVariable long id)
+    {
+        postDao.findOne(id);// select * from posts where id = ?
+        return "redirect:/posts";
+    }
+
 } //end
-//
-//
