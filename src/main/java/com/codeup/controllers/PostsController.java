@@ -21,7 +21,7 @@ public class PostsController {
 
     @GetMapping("/posts")
     public String viewAll(Model model) {
-        List<Post> posts= postDao.findAll();
+        Iterable<Post> posts= postDao.findAll();    //maybe postDao should be change : postSvc?
         model.addAttribute("posts", posts);
         return "posts/index";
     }
@@ -32,8 +32,6 @@ public class PostsController {
         return "posts/show";
     }
 
-    //------------
-
     @GetMapping("/posts/create")
     public String showPostForm(Model model) {
     model.addAttribute("post", new Post());
@@ -42,29 +40,37 @@ public class PostsController {
 
     @PostMapping("/posts/create")
       public String savePost(
+        //---
+            @RequestParam
+
+        //---
         @ModelAttribute Post post){
         postDao.save(post);
         return "redirect:/posts";
     }
 
 
+
     @GetMapping("/posts/{id}/edit")
     public String showEditForm(@PathVariable long id, Model model) {
-         // TODO: Find this post in the data source using the service
+                                 // TODO: Find this post in the data source using the service
                   Post post = postDao.findOne(id);
-         // TODO: Pass the post found to the view
+                               // TODO: Pass the post found to the view
                   model.addAttribute("post", post );
                 return "posts/edit";
            }
 
     @PostMapping("/posts/{id}/edit")
-    public String editPost(
-            @RequestParam (name="title") String title,
-            @RequestParam (name="body") String body,
-            @PathVariable long id)
-    {
-        postDao.findOne(id);// select * from posts where id = ?
-        return "redirect:/posts";
-    }
+    public String editPost( @ModelAttribute Post post ) {
+                    // @RequestParam (name="title") String title,
+                    // @RequestParam (name="body") String body,
+                    // @PathVariable long id)
+//looks at
+         postDao.updatePost(post);   //createdin post svc
+         return "redirect:/posts/"+post.getId();
+                    // postDao.findOne(id);// select * from posts where id = ?
+                    // return "redirect:/posts";
+      }
+
 
 } //end

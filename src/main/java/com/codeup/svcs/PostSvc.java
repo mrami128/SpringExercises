@@ -9,31 +9,41 @@ import java.util.List;
 
 @Service("PostSvc")
 public class PostSvc {
+    // y is post svc -x is repository -step5 in repos exercise:
+    //steps: 1.map model--
+    // 2.create repository-
+    // 3. use repositroy within a service;this is prefered--versus using direct on controller
 
-    private final PostsRepository postsRepository;
-    @Autowired
-    public PostSvc(PostsRepository postsRepository) {
-        this.postsRepository = postsRepository;
-    }
+    private final PostsRepository postsRepos;
 
     List<Post> posts = new ArrayList<>();
 
+    @Autowired
+    public PostSvc(PostsRepository postsRepos) {
+        this.postsRepos = postsRepos;
+    }
 
-    public List<Post> findAll() {
-        return posts;
+    public Iterable<Post> findAll() {
+        return postsRepos.findAll(); // select *from posts
     }
 
     public Post findOne(long id) {
-        return posts.get((int) (id - 1));
+        return postsRepos.findOne(id);
     }
 
     public Post save(Post post) {
-        post.setId(posts.size() + 1);
-        posts.add(post);
+        postsRepos.save(post); 
         return post;
     }
 
+    public Post updatePost(Post post) {
+        postsRepos.save(post);
+        return post;
+    }
 
+//    public void deletePost(long id){
+//    postsRepos.delete(id);
+//    }
 
-}
+} // end
 
