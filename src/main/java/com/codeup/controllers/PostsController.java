@@ -1,15 +1,12 @@
 package com.codeup.controllers;
 
 import com.codeup.models.Post;
-//import com.codeup.svcs.AdSvc;
 import com.codeup.svcs.PostSvc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import java.util.*;
 
 
 @Controller
@@ -23,11 +20,9 @@ public class PostsController {
     }
 
     @GetMapping("/posts")
-    public String viewAll(String name, Model model) {
-// -----
-//        List<Post> posts= postSvc.findAll();
-// -----
-        model.addAttribute("posts", postDao.findAll());
+    public String viewAll(Model model) {
+        Iterable<Post> posts= postDao.findAll();    //maybe postDao should be change : postSvc?
+        model.addAttribute("posts", posts);
         return "posts/index";
     }
 
@@ -38,13 +33,44 @@ public class PostsController {
     }
 
     @GetMapping("/posts/create")
-    public String showPostForm() {
-        return "view the form for creating the post";
+    public String showPostForm(Model model) {
+    model.addAttribute("post", new Post());
+            return "posts/create";
     }
-
 
     @PostMapping("/posts/create")
-    public String savePost() {
-        return "create and saving a new post";
+      public String savePost(
+        //---
+            @RequestParam
+
+        //---
+        @ModelAttribute Post post){
+        postDao.save(post);
+        return "redirect:/posts";
     }
-}
+
+
+
+    @GetMapping("/posts/{id}/edit")
+    public String showEditForm(@PathVariable long id, Model model) {
+                                 // TODO: Find this post in the data source using the service
+                  Post post = postDao.findOne(id);
+                               // TODO: Pass the post found to the view
+                  model.addAttribute("post", post );
+                return "posts/edit";
+           }
+
+    @PostMapping("/posts/{id}/edit")
+    public String editPost( @ModelAttribute Post post ) {
+                    // @RequestParam (name="title") String title,
+                    // @RequestParam (name="body") String body,
+                    // @PathVariable long id)
+//looks at
+         postDao.updatePost(post);   //createdin post svc
+         return "redirect:/posts/"+post.getId();
+                    // postDao.findOne(id);// select * from posts where id = ?
+                    // return "redirect:/posts";
+      }
+
+
+} //end

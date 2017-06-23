@@ -1,46 +1,49 @@
 package com.codeup.svcs;
 
 import com.codeup.models.Post;
+import com.codeup.repositories.PostsRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service("PostSvc")
 public class PostSvc {
+    // y is post svc -x is repository -step5 in repos exercise:
+    //steps: 1.map model--
+    // 2.create repository-
+    // 3. use repositroy within a service;this is prefered--versus using direct on controller
+
+    private final PostsRepository postsRepos;
 
     List<Post> posts = new ArrayList<>();
-                           // this is constructor -notice it has same name as class PostSVC
-    public PostSvc() {
-        createPosts();
+
+    @Autowired
+    public PostSvc(PostsRepository postsRepos) {
+        this.postsRepos = postsRepos;
     }
 
-    public List<Post> findAll() {
-        return posts;
+    public Iterable<Post> findAll() {
+        return postsRepos.findAll(); // select *from posts
     }
 
     public Post findOne(long id) {
-        return posts.get((int) (id - 1));
+        return postsRepos.findOne(id);
     }
 
     public Post save(Post post) {
-        post.setId(posts.size() + 1);
-        posts.add(post);
+        postsRepos.save(post); 
         return post;
     }
 
-    private void createPosts() {
-        // create some fake  ad objects and add them to the ads list
-        Post post = new Post("title", "another fake test post");
-        Post post2 = new Post("title2", "another fake test post");
-        Post post3 = new Post("title3", "another fake test post");
-        Post post4 = new Post("title4", "another fake test post");
-
-        // with the save method
-        this.save(post);
-        this.save(post2);
-        this.save(post3);
-        this.save(post4);
-
+    public Post updatePost(Post post) {
+        postsRepos.save(post);
+        return post;
     }
-}
+
+//    public void deletePost(long id){
+//    postsRepos.delete(id);
+//    }
+
+} // end
 
