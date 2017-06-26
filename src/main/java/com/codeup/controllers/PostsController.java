@@ -1,6 +1,7 @@
 package com.codeup.controllers;
 
 import com.codeup.models.Post;
+import com.codeup.repositories.UsersRepository;
 import com.codeup.svcs.PostSvc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,11 +14,14 @@ import java.util.*;
 public class PostsController {
 
     private final PostSvc postDao;
+    private final UsersRepository userDao;
+
 
     @Autowired
-    public PostsController(PostSvc postDao) {
+    public PostsController(PostSvc postDao, UsersRepository userDao) {
         this.postDao = postDao;
-    }
+        this.userDao = userDao;  }
+
 
     @GetMapping("/posts")
     public String viewAll(Model model) {
@@ -50,7 +54,6 @@ public class PostsController {
     }
 
 
-
     @GetMapping("/posts/{id}/edit")
     public String showEditForm(@PathVariable long id, Model model) {
                                  // TODO: Find this post in the data source using the service
@@ -62,15 +65,15 @@ public class PostsController {
 
     @PostMapping("/posts/{id}/edit")
     public String editPost( @ModelAttribute Post post ) {
-                    // @RequestParam (name="title") String title,
-                    // @RequestParam (name="body") String body,
-                    // @PathVariable long id)
-//looks at
+
          postDao.updatePost(post);   //createdin post svc
          return "redirect:/posts/"+post.getId();
-                    // postDao.findOne(id);// select * from posts where id = ?
-                    // return "redirect:/posts";
-      }
+          }
 
-
-} //end
+    @PostMapping("/post/delete")
+    public String deletePost(@ModelAttribute Post post, Model model){
+        postDao.deletePost(post.getId());
+        model.addAttribute("msg", "Your post was deleted correctly");
+        return "return the view with a success message";
+    }
+} //end PostsControllers class

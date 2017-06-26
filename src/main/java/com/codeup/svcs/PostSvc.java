@@ -41,9 +41,10 @@ public class PostSvc {
         return post;
     }
 
-//    public void deletePost(long id){
-//    postsRepos.delete(id);
-//    }
+    public Post deletePost(long id) {
+        postsRepos.delete(id);
+        return null;
+    }
 
 } // end
 
