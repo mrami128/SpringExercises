@@ -5,7 +5,6 @@ import java.util.List;
 
 @Entity
 @Table(name="users")
-
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,10 +19,29 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @OneToMany        // aka: one user may have many posts
-    List<Post> posts;
+    public User(){  //empty Constructor
+         }
+//-------
 
-//--------------------------
+    public User(long id, String username, String email, String password) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
+
+    public User(User user) {
+        this.id = user.id;
+        this.username = user.username;
+        this.password = user.password;
+        this.email = user.email;
+    }
+
+////-------
+//    @OneToMany        // aka: one user may have many posts
+//    List<Post> posts;
+
+
     public long getId() {
         return id;
     }

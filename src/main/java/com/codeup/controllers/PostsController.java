@@ -1,79 +1,82 @@
 package com.codeup.controllers;
 
 import com.codeup.models.Post;
+import com.codeup.models.User;
 import com.codeup.repositories.UsersRepository;
 import com.codeup.svcs.PostSvc;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import java.util.*;
 
+import java.util.List;
 
 @Controller
 public class PostsController {
 
-    private final PostSvc postDao;
-    private final UsersRepository userDao;
-
+    private final PostSvc postSvc;
+    private final UsersRepository usersDao;
 
     @Autowired
-    public PostsController(PostSvc postDao, UsersRepository userDao) {
-        this.postDao = postDao;
-        this.userDao = userDao;  }
-
+    public PostsController(PostSvc postSvc, UsersRepository usersDao) {
+        this.postSvc = postSvc;
+        this.usersDao = usersDao;
+    }
 
     @GetMapping("/posts")
     public String viewAll(Model model) {
-        Iterable<Post> posts= postDao.findAll();    //maybe postDao should be change : postSvc?
+        Iterable<Post> posts = postSvc.findAll();
         model.addAttribute("posts", posts);
         return "posts/index";
     }
 
     @GetMapping("/posts/{id}")
     public String viewIndividualPost(@PathVariable long id, Model model) {
-        model.addAttribute("post", postDao.findOne(id));
+        // Inside the method that shows an individual post, create a new post object and pass it to the view.
+        Post post = postSvc.findOne(id);
+        model.addAttribute("post", post);
         return "posts/show";
     }
 
-    @GetMapping("/posts/create")
+    @GetMapping("/posts/create")  // what we type in the browser
     public String showPostForm(Model model) {
-    model.addAttribute("post", new Post());
-            return "posts/create";
+        model.addAttribute("post", new Post());
+        return "posts/create"; // this is the location of the template in the templates directory
     }
 
     @PostMapping("/posts/create")
-      public String savePost(
-        //---
-            @RequestParam
-
-        //---
-        @ModelAttribute Post post){
-        postDao.save(post);
-        return "redirect:/posts";
+    public String savePost(
+            @RequestParam(name = "title") String title,
+            @RequestParam(name = "body") String body,
+            Model model
+    ) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Post post = new Post(title, body, user);
+        postSvc.save(post);
+        model.addAttribute("post", post);
+        return "posts/create";
     }
-
 
     @GetMapping("/posts/{id}/edit")
     public String showEditForm(@PathVariable long id, Model model) {
-                                 // TODO: Find this post in the data source using the service
-                  Post post = postDao.findOne(id);
-                               // TODO: Pass the post found to the view
-                  model.addAttribute("post", post );
-                return "posts/edit";
-           }
+        // TODO: Find this post in the data source using the service
+        Post post = postSvc.findOne(id);
+        // TODO: Pass the post found to the view
+        model.addAttribute("post", post);
+        return "posts/edit";
+    }
 
     @PostMapping("/posts/{id}/edit")
-    public String editPost( @ModelAttribute Post post ) {
+    public String editPost(@ModelAttribute Post post){
+        postSvc.save(post);
+        return "redirect:/posts/" + post.getId();
+    }
 
-         postDao.updatePost(post);   //createdin post svc
-         return "redirect:/posts/"+post.getId();
-          }
-
-    @PostMapping("/post/delete")
+    @PostMapping("/posts/delete")
     public String deletePost(@ModelAttribute Post post, Model model){
-        postDao.deletePost(post.getId());
+        postSvc.deletePost(post.getId());
         model.addAttribute("msg", "Your post was deleted correctly");
         return "return the view with a success message";
     }
-} //end PostsControllers class
+}

@@ -1,6 +1,5 @@
 package com.codeup.models;
 import org.hibernate.validator.constraints.NotBlank;
-import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -26,37 +25,31 @@ public class Post {
 
 // --- Add  @one to one relationship --JPA standard;Hibernate creates the column. later this will be many to one
 // -- this JAVA bean is a class with def constructor also has getter setter for all attribs props &instan variable
-// -- Both the ORM(Hibernate and
-    @OneToOne
+// -- Both the ORM(Hibernate and thymelead
+    @ManyToOne
     private User owner;
-//---------------------
 
-    public Post() {   }
+    //----Custom Constructor-----------------
 
     public Post(String title, String body,User owner) {
         this.title = title;
         this.body = body;
         this.owner=owner;  }
 
-    //-------------
-    public void setId(long id) {
-        this.id = id;
-    }
+    //----Blank constructor----
 
-    public User getOwner() {
-        return owner;
-    }
+    public Post() {   }
 
-    public void setOwner(User owner) {
-        this.owner = owner;
-    }
+//-----------------
+    public String getTitle() {
+        return title;   }
 
+    public void setTitle(String title) {
+        this.title = title; }
+//----------------
 
-    public String getTitle() {  return title;   }
-    public void setTitle(String title) { this.title = title; }
-
-
-    public String getBody() {  return body; }
+    public String getBody() {
+        return body; }
     public void setBody(String body) {
         this.body = body;
     }
@@ -64,8 +57,15 @@ public class Post {
     public Integer getId() {
         return (int)id;
     }
-    public void setId(Integer id)  {
+
+    public void setId(long id) {
         this.id = id;
     }
 //--------------------------
+    public User getOwner() {
+        return owner;
+    }
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
 }

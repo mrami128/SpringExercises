@@ -6,45 +6,34 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
-
-@Service("PostSvc")
+@Service("postSvc")
 public class PostSvc {
-    // y is post svc -x is repository -step5 in repos exercise:
-    //steps: 1.map model--
-    // 2.create repository-
-    // 3. use repositroy within a service;this is prefered--versus using direct on controller
+    // Autowire an instance of X in class Y mean
+    // 1. Add a private property of type X within the class Y
+    // 2. Create/update the constructor of the class Y where you added the property,
+    // to receive one more argument of type X
+    // 3. Add the @Autowired annotation to the constructor if needed.
+    private PostsRepository postsDao;  // Step 1
 
-    private final PostsRepository postsRepos;
-
-    List<Post> posts = new ArrayList<>();
-
-    @Autowired
-    public PostSvc(PostsRepository postsRepos) {
-        this.postsRepos = postsRepos;
+    @Autowired  // Constructor injection (add one more parameter to the constructor)
+    public PostSvc(PostsRepository postsDao){  // Step 2
+        this.postsDao = postsDao;
     }
 
-    public Iterable<Post> findAll() {
-        return postsRepos.findAll(); // select *from posts
+    public Iterable<Post> findAll(){
+        return postsDao.findAll();  // select * from posts
     }
 
-    public Post findOne(long id) {
-        return postsRepos.findOne(id);
+    public Post findOne(long id){
+        return postsDao.findOne(id); // select * from posts where id = ?
     }
 
-    public Post save(Post post) {
-        postsRepos.save(post); 
+    public Post save(Post post){
+        postsDao.save(post); // insert into posts(title, body) values (?, ?)
         return post;
     }
 
-    public Post updatePost(Post post) {
-        postsRepos.save(post);
-        return post;
+    public void deletePost(long id){
+        postsDao.delete(id);
     }
-
-    public Post deletePost(long id) {
-        postsRepos.delete(id);
-        return null;
-    }
-
-} // end
-
+}
