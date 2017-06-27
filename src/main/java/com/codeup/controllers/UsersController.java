@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+@Controller
 public class UsersController {
 
     @Autowired
@@ -23,7 +24,7 @@ public class UsersController {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         usersDao.save(user);
 
-        return "redirect:/posts";
+        return  "redirect:/login";
 
     }
 

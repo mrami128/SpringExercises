@@ -1,10 +1,9 @@
 package com.codeup.svcs;
 
-
 import com.codeup.models.User;
 import com.codeup.repositories.Roles;
 import com.codeup.repositories.UsersRepository;
-import com.codeup.svcs.UserWithRoles;
+import com.codeup.models.UserWithRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -35,7 +34,5 @@ import java.util.List;
             List<String> userRoles = roles.ofUserWith(username);
             return new UserWithRoles(user, userRoles);
 
-//}
-   //     }
     }
 }

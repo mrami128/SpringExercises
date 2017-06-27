@@ -31,14 +31,5 @@ public class AuthenticationController {
         return "register";
     }
 
-    @PostMapping("/users/register")
-    public String saveUser(@ModelAttribute User user){
-
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        usersDao.save(user);
-
-        return "redirect:/posts";
-
-    }
 
 }

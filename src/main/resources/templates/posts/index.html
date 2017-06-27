@@ -1,25 +1,21 @@
-<!DOCTYPE html>
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
-<html xmlns:th="http://www.thymeleaf.org">
-
-    <head th:include="fragments :: head('Show All Posts')" />
-
-
+<head th:replace="fragments :: head('All posts')" />
 
 <body>
+    <nav th:replace="fragments :: my-navbar" />
 
-<nav th:replace="fragments :: my-navbar"/>
-
-<div class="container">
-
-    <div th:each="post : ${posts}">
-         <h1 th:text = "${post.title}"> </h1>
-         <h3 th:text = "${post.body}"> </h3>
-        <h3 th:text = "${post.owner.username}"> </h3>
-        <h3 th:text = "${post.owner.email}"> </h3>
+    <div class="container">
+        <h1>Posts Index Page</h1>
+        <h2>Listing of all the posts</h2>
+        <div th:each="post : ${posts}">
+            <h2>Title: <span th:text="${post.title}"></span></h2>
+            <h2>Body: <span th:text="${post.body}"></span></h2>
+            <h2>user's email: <span th:text="${post.owner.email}"></span></h2>
+        </div>
     </div>
 
-</div>
-
 </body>
+
 </html>

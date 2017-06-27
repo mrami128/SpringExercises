@@ -2,7 +2,6 @@ package com.codeup.models;
 
 import javax.persistence.*;
 
-
 @Entity
 @Table(name = "user_roles")
 public class UserRole {

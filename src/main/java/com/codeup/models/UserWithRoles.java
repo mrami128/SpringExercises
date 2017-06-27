@@ -1,4 +1,4 @@
-package com.codeup.svcs;
+package com.codeup.models;
 
 import com.codeup.models.User;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,7 +12,6 @@ import java.util.List;
 public class UserWithRoles extends User implements UserDetails {
     private List<String> userRoles;
 
-
     public UserWithRoles(User user, List<String> userRoles) {
         super(user);
         this.userRoles = userRoles;
@@ -23,6 +22,7 @@ public class UserWithRoles extends User implements UserDetails {
         return AuthorityUtils.commaSeparatedStringToAuthorityList(roles);
     }
 
+//    These are extension points
     @Override
     public boolean isAccountNonExpired() {
         return true;
