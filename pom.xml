@@ -6,7 +6,9 @@
 	<groupId>com.codeup</groupId>
 	<artifactId>demo-blog</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+
+    <!--change jar to war for digi ocean-->
+    	<packaging>war</packaging>
 
 	<name>demo-blog</name>
 	<description>Demo project for Spring Boot</description>
@@ -18,7 +20,13 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
+
+
 	<properties>
+
+        <!--add for Digital Ocean-->
+            <maven.test.skip>true</maven.test.skip>
+
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
