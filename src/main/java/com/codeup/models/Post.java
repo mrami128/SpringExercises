@@ -1,4 +1,5 @@
 package com.codeup.models;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
@@ -15,7 +16,7 @@ public class Post {
 
     @Column(nullable = false)
     @NotBlank(message =" The title of your post cannot be blank")
-    @Size(min = 5, message = "the title must be 5 characters or longer")
+    @Size(min = 1, message = "the title must be 1 characters or longer")
     private String title;
 
 
@@ -27,6 +28,7 @@ public class Post {
 // -- this JAVA bean is a class with def constructor also has getter setter for all attribs props &instan variable
 // -- Both the ORM(Hibernate and thymelead
     @ManyToOne
+    @JsonManagedReference
     private User owner;
 
     //----Custom Constructor-----------------

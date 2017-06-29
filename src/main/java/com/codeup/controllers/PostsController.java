@@ -24,6 +24,15 @@ public class PostsController {
         this.usersDao = usersDao;
     }
 
+    @GetMapping("/posts.json")
+    public @ResponseBody Iterable<Post> viewAllPosts() {
+        return postSvc.findAll();
+    }
+    @GetMapping("/posts/ajax")
+    public String viewAllPostsUsingAnAjaxCall() {
+        return "posts/ajax";
+    }
+
     @GetMapping("/posts")
     public String viewAll(Model model) {
         Iterable<Post> posts = postSvc.findAll();
@@ -55,7 +64,7 @@ public class PostsController {
         Post post = new Post(title, body, user);
         postSvc.save(post);
         model.addAttribute("post", post);
-        return "posts/create";
+        return "redirect:/posts";
     }
 
     @GetMapping("/posts/{id}/edit")
@@ -69,6 +78,8 @@ public class PostsController {
 
     @PostMapping("/posts/{id}/edit")
     public String editPost(@ModelAttribute Post post){
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        post.setOwner(user);
         postSvc.save(post);
         return "redirect:/posts/" + post.getId();
     }
